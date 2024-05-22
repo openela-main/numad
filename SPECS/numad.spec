@@ -2,7 +2,7 @@
 
 Name: numad
 Version: 0.5
-Release: 26.20150602git%{?dist}
+Release: 27.20150602git%{?dist}
 Summary: NUMA user daemon
 
 License: LGPLv2
@@ -13,6 +13,10 @@ URL: https://pagure.io/numad
 #   git clone https://pagure.io/numad.git numad-0.5git
 #   tar --exclude-vcs -cJf numad-0.5git.tar.xz numad-0.5git/
 Source0: %{name}-%{version}git.tar.xz
+
+# RHEL-16506
+# Upstream commit: https://pagure.io/numad/c/cf6c2c029edc9c288122bcd603a72eb7f6d042d2
+Patch1:  numad-0.5git-m-option.patch
 
 Requires: systemd-units
 Requires(post): systemd-units
@@ -27,7 +31,7 @@ that monitors NUMA characteristics and manages placement of processes
 and memory to minimize memory latency and thus provide optimum performance.
 
 %prep
-%setup -q -n %{name}-%{version}git
+%autosetup -n %{name}-%{version}git
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS -std=gnu99" LDFLAGS="$RPM_LD_FLAGS -lpthread -lrt -lm"
@@ -57,6 +61,9 @@ make install prefix=%{buildroot}/usr
 %systemd_postun numad.service
 
 %changelog
+* Wed Nov 15 2023 Lukáš Zaoral <lzaoral@redhat.com> - 0.5-27.20150602git
+- recognize the -m option (RHEL-16506)
+
 * Tue Jun 19 2018 Jan Synáček <jsynacek@redhat.com> - 0.5-26.20150602git
 - Remove initscripts from Requires (#1610280)
 
