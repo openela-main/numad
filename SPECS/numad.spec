@@ -2,10 +2,10 @@
 
 Name: numad
 Version: 0.5
-Release: 37.20150602git%{?dist}
+Release: 50.20251104git%{?dist}
 Summary: NUMA user daemon
 
-License: LGPLv2
+License: LGPL-2.1-only
 URL: https://pagure.io/numad
 # The source for this package was pulled from upstream's vcs.  Use the
 # following commands to generate the tarball:
@@ -13,10 +13,6 @@ URL: https://pagure.io/numad
 #   tar --exclude-vcs -cJf numad-0.5git.tar.xz numad-0.5git/
 Source0: %{name}-%{version}git.tar.xz
 Patch0: 0000-remove-conf.patch
-
-# RHEL-16571
-# Upstream commit: https://pagure.io/numad/c/cf6c2c029edc9c288122bcd603a72eb7f6d042d2
-Patch1:  numad-0.5git-m-option.patch
 
 Requires: systemd-units
 Requires(post): systemd-units
@@ -63,6 +59,9 @@ install -p -m 644 numad.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %systemd_postun numad.service
 
 %changelog
+* Thu Jun 11 2026 Siteshwar Vashisht <svashisht@redhat.com> - 0.5-50.20251104git
+- Rebase to same version as RHEL 10 (RHEL-180724)
+
 * Wed Nov 15 2023 Lukáš Zaoral <lzaoral@redhat.com> - 0.5-37.20150602git
 - recognize the -m option (RHEL-16571)
 
